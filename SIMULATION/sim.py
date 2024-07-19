@@ -13,7 +13,7 @@ class Sim:
 
     def __init__(self) -> None:
         # initialize model
-        self.model = mujoco.MjModel.from_xml_path("/home/frida/Desktop/RobotRemote/SIMULATION/panda_mujoco/world.xml")
+        self.model = mujoco.MjModel.from_xml_path("/Users/adamhung/Desktop/RISS/RobotRemote/SIMULATION/panda_mujoco/world.xml")
         self.data = mujoco.MjData(self.model)
         # setting up camera
         self.cam = mujoco.MjvCamera()
