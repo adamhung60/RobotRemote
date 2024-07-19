@@ -1,0 +1,10 @@
+<mujoco>
+  <worldbody>
+    <body pos="0.22 0 0.04">
+      <freejoint/>
+      <composite type="box" count="10 10 10" spacing="0.01">
+        <geom type="capsule" size=".005 .005" rgba=".8 .2 .1 1"/>
+      </composite>
+    </body>
+  </worldbody>
+</mujoco>
