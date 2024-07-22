@@ -117,15 +117,29 @@ class Simulation():
 
 if __name__ == "__main__":
     script_dir = Path(__file__).resolve().parent
-    xml_path = str(script_dir / "franka_emika_panda" / "scene.xml")
-    joint_names = [
-        "joint1",
-        "joint2",
-        "joint3",
-        "joint4",
-        "joint5",
-        "joint6",
-        "joint7",
-    ]
+
+    robot = "lite6"
+
+    if robot == "panda":
+        xml_path = str(script_dir / "franka_emika_panda" / "scene.xml")
+        joint_names = [
+            "joint1",
+            "joint2",
+            "joint3",
+            "joint4",
+            "joint5",
+            "joint6",
+            "joint7",
+        ]
+    elif robot == "lite6":
+        xml_path = str(script_dir / "ufactory_lite6" / "scene.xml")
+        joint_names = [
+            "joint1",
+            "joint2",
+            "joint3",
+            "joint4",
+            "joint5",
+            "joint6",
+        ]
     sim = Simulation(xml_path, joint_names, dt = 0.02, grav_comp = True)
     sim.simulate()
