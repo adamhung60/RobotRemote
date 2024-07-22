@@ -11,7 +11,7 @@ xml_path = str(script_dir / "franka_emika_panda" / "scene.xml")
 # Levenberg-Marquardt IK solver
 class IK_Solver():
 
-    def __init__(self, model, site_name, Knull, workspace, q0, n_steps = 50, step_size = .1, tol = 1e-10, damping = 1e-3, gravity_compensation = True):
+    def __init__(self, model, site_name, Knull, workspace, q0, n_steps = 50, step_size = .1, tol = 1e-10, damping = 5e-3, gravity_compensation = True):
         self.model = copy.deepcopy(model)
 
         self.n_steps = n_steps
@@ -27,7 +27,7 @@ class IK_Solver():
         self.q0 = q0
     
     def solve(self, data, goal_pos, goal_quat):
-        
+
         goal_pos = self.workspace.clip_to_workspace(goal_pos)
 
         self.data = copy.deepcopy(data)
