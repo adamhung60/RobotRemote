@@ -4,12 +4,12 @@ import numpy as np
 import time
 from pathlib import Path
 from pynput import keyboard
-from mujoco_lm_nullspace_ik import IK_Solver
+from mujoco_lm_nullspace_ik import IK_Solver, Robot_Workspace
 from transformations import euler_from_quaternion
 
 class Simulation():
 
-    def __init__(self, xml_path, Knull, dt = 0.02, grav_comp = False, site_name = "attachment_site", home_key_name = "home"):
+    def __init__(self, xml_path, Knull, workspace, dt = 0.02, grav_comp = True, site_name = "attachment_site", home_key_name = "home"):
         self.model = mujoco.MjModel.from_xml_path(xml_path)
         self.data = mujoco.MjData(self.model)
         self.goal_pos = np.zeros(3)
@@ -30,6 +30,7 @@ class Simulation():
         self.home_key_id = self.model.key(home_key_name).id
 
         self.Knull = Knull
+        self.workspace = workspace
     
     def simulate(self):
 
@@ -50,7 +51,7 @@ class Simulation():
             mujoco.mju_mat2Quat(self.goal_quat, self.data.site(self.site_id).xmat)
 
             q0 = self.data.qpos.copy()
-            ik = IK_Solver(self.model, self.site_name, self.Knull, q0)
+            ik = IK_Solver(self.model, self.site_name, self.Knull, self.workspace, q0)
 
             listener = keyboard.Listener(on_press=self.on_press)
             listener.start()
@@ -118,15 +119,21 @@ class Simulation():
 if __name__ == "__main__":
     script_dir = Path(__file__).resolve().parent
 
-    robot = "lite6"
+    robot = "panda"
 
     if robot == "panda":
         xml_path = str(script_dir / "franka_emika_panda" / "scene.xml")
         Knull = np.asarray([0.1]*7)
-        Knull = np.asarray([0]*7)
+        #Knull = np.asarray([0]*7)
+
+        workspace = Robot_Workspace("sphere", center = [0,0,(-.360+1.190)/2], radius = 0.855 - 0.003, height = (-.360+1.190)/2)
+
     elif robot == "lite6":
         xml_path = str(script_dir / "ufactory_lite6" / "scene.xml")
         Knull = np.asarray([0.1]*6)
-        Knull = np.asarray([0]*6)
-    sim = Simulation(xml_path, Knull, dt = 0.02)
+        #Knull = np.asarray([0]*6)
+
+        workspace = Robot_Workspace("sphere", center = [0,0,(-.165+.6835)/2], radius = .440 - 0.003, height = (-.165+.6835)/2)
+
+    sim = Simulation(xml_path, Knull, workspace, dt = 0.02)
     sim.simulate()
