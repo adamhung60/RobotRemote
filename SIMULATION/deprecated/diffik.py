@@ -137,15 +137,12 @@ def main() -> None:
         goal_pos = data.site(site_id).xpos.copy()
         mujoco.mju_mat2Quat(goal_quat, data.site(site_id).xmat)
 
-
         while viewer.is_running():
-
-            #print(goal_pos)
-            #time.sleep(0.5)
 
             step_start = time.time()
         
             # Position error.
+
             error_pos[:] = goal_pos - data.site(site_id).xpos
 
             # Orientation error.
