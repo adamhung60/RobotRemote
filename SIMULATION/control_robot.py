@@ -9,7 +9,7 @@ from transformations import euler_from_quaternion
 
 class Simulation():
 
-    def __init__(self, xml_path, joint_names, Knull, dt = 0.02, grav_comp = True, site_name = "attachment_site", home_key_name = "home"):
+    def __init__(self, xml_path, Knull, dt = 0.02, grav_comp = True, site_name = "attachment_site", home_key_name = "home"):
         self.model = mujoco.MjModel.from_xml_path(xml_path)
         self.data = mujoco.MjData(self.model)
         self.goal_pos = np.zeros(3)
@@ -74,12 +74,12 @@ class Simulation():
         delta = 0.02
         if self.rot == False:
             try:
-                if key == keyboard.Key.cmd_r:
+                if key == keyboard.Key.ctrl_r:
                     self.rot = True
                     return
                 elif key == keyboard.Key.space:
                     self.goal_pos[2] += delta  # Move up
-                elif key == keyboard.Key.cmd:
+                elif key == keyboard.Key.ctrl_l:
                     self.goal_pos[2] -= delta  # Move down
                 elif key == keyboard.Key.left:
                     self.goal_pos[1] -= delta  # Move left
@@ -94,12 +94,12 @@ class Simulation():
         else:
             euler_angles = [*euler_from_quaternion(self.goal_quat)]
             try:
-                if key == keyboard.Key.cmd_r:
+                if key == keyboard.Key.ctrl_r:
                     self.rot = False
                     return
                 elif key == keyboard.Key.space:
                     euler_angles[2] += delta  # Move up
-                elif key == keyboard.Key.cmd:
+                elif key == keyboard.Key.ctrl_l:
                     euler_angles[2] -= delta  # Move down
                 elif key == keyboard.Key.left:
                     euler_angles[1] -= delta  # Move left
@@ -118,30 +118,13 @@ class Simulation():
 if __name__ == "__main__":
     script_dir = Path(__file__).resolve().parent
 
-    robot = "lite6"
+    robot = "panda"
 
     if robot == "panda":
         xml_path = str(script_dir / "franka_emika_panda" / "scene.xml")
-        joint_names = [
-            "joint1",
-            "joint2",
-            "joint3",
-            "joint4",
-            "joint5",
-            "joint6",
-            "joint7",
-        ]
         Knull = np.asarray([0.1]*7)
     elif robot == "lite6":
         xml_path = str(script_dir / "ufactory_lite6" / "scene.xml")
-        joint_names = [
-            "joint1",
-            "joint2",
-            "joint3",
-            "joint4",
-            "joint5",
-            "joint6",
-        ]
         Knull = np.asarray([0.1]*6)
-    sim = Simulation(xml_path, joint_names, Knull, dt = 0.02, grav_comp = True)
+    sim = Simulation(xml_path, Knull, dt = 0.02, grav_comp = True)
     sim.simulate()
