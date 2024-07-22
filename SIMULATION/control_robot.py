@@ -9,7 +9,7 @@ from transformations import euler_from_quaternion
 
 class Simulation():
 
-    def __init__(self, xml_path, joint_names, dt = 0.02, grav_comp = True, site_name = "attachment_site", home_key_name = "home", Knull = np.asarray([0.1]*7)):
+    def __init__(self, xml_path, joint_names, Knull, dt = 0.02, grav_comp = True, site_name = "attachment_site", home_key_name = "home"):
         self.model = mujoco.MjModel.from_xml_path(xml_path)
         self.data = mujoco.MjData(self.model)
         self.goal_pos = np.zeros(3)
@@ -131,6 +131,7 @@ if __name__ == "__main__":
             "joint6",
             "joint7",
         ]
+        Knull = np.asarray([0.1]*7)
     elif robot == "lite6":
         xml_path = str(script_dir / "ufactory_lite6" / "scene.xml")
         joint_names = [
@@ -141,5 +142,6 @@ if __name__ == "__main__":
             "joint5",
             "joint6",
         ]
-    sim = Simulation(xml_path, joint_names, dt = 0.02, grav_comp = True)
+        Knull = np.asarray([0.1]*6)
+    sim = Simulation(xml_path, joint_names, Knull, dt = 0.02, grav_comp = True)
     sim.simulate()
