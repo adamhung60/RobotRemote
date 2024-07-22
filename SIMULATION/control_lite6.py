@@ -46,7 +46,7 @@ class Simulation():
             # Toggle site frame visualization.
             viewer.opt.frame = mujoco.mjtFrame.mjFRAME_SITE
 
-            goal_pos = self.data.site(self.site_id).xpos.copy()
+            self.goal_pos = self.data.site(self.site_id).xpos.copy()
             mujoco.mju_mat2Quat(self.goal_quat, self.data.site(self.site_id).xmat)
 
             q0 = self.data.qpos.copy()
@@ -58,7 +58,7 @@ class Simulation():
 
                 step_start = time.time()
 
-                q = ik.solve(self.data,goal_pos, self.goal_quat)
+                q = ik.solve(self.data,self.goal_pos, self.goal_quat)
                 self.data.ctrl[self.actuator_ids] = q[self.dof_ids]
                 #data.qpos = q
                 mujoco.mj_step(self.model, self.data)
