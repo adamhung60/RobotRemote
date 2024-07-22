@@ -71,7 +71,7 @@ class Simulation():
             listener.stop()
 
     def on_press(self, key):
-        delta = 0.02
+        delta = 0.01
         if self.rot == False:
             try:
                 if key == keyboard.Key.ctrl_r:
@@ -79,7 +79,7 @@ class Simulation():
                     return
                 elif key == keyboard.Key.space:
                     self.goal_pos[2] += delta  # Move up
-                elif key == keyboard.Key.ctrl_l:
+                elif key == keyboard.Key.shift_l:
                     self.goal_pos[2] -= delta  # Move down
                 elif key == keyboard.Key.left:
                     self.goal_pos[1] -= delta  # Move left
@@ -99,7 +99,7 @@ class Simulation():
                     return
                 elif key == keyboard.Key.space:
                     euler_angles[2] += delta  # Move up
-                elif key == keyboard.Key.ctrl_l:
+                elif key == keyboard.Key.shift_l:
                     euler_angles[2] -= delta  # Move down
                 elif key == keyboard.Key.left:
                     euler_angles[1] -= delta  # Move left
