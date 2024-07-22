@@ -24,8 +24,8 @@ class Simulation():
 
         self.model.body_gravcomp[:] = float(grav_comp)
 
-        self.dof_ids = np.array([self.model.joint(name).id for name in joint_names])
-        self.actuator_ids = np.array([self.model.actuator(name).id for name in joint_names])
+        #self.dof_ids = np.array([self.model.joint(name).id for name in joint_names])
+        #self.actuator_ids = np.array([self.model.actuator(name).id for name in joint_names])
     
         self.home_key_id = self.model.key(home_key_name).id
 
@@ -59,8 +59,8 @@ class Simulation():
                 step_start = time.time()
 
                 q = ik.solve(self.data,self.goal_pos, self.goal_quat)
-                self.data.ctrl[self.actuator_ids] = q[self.dof_ids]
-                #data.qpos = q
+                #self.data.ctrl[self.actuator_ids] = q[self.dof_ids]
+                self.data.qpos = q
                 mujoco.mj_step(self.model, self.data)
 
                 viewer.sync()
