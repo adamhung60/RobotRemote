@@ -239,6 +239,9 @@
                         <geom class="fingertip_pad_collision_4"/>
                         <geom class="fingertip_pad_collision_5"/>
                       </body>
+                      <body name="attachment" pos="0 0 0.107" quat="0.3826834 0 0 0.9238795">
+                        <site name="attachment_site" rgba="1 0 0 1" size="0.01" group="1" quat="0 0 0 1"/>
+                      </body>
                     </body>
                   </body>
                 </body>
