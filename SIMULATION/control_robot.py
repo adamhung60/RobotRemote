@@ -119,7 +119,7 @@ class Simulation():
 if __name__ == "__main__":
     script_dir = Path(__file__).resolve().parent
 
-    robot = "panda"
+    robot = "lite6"
 
     if robot == "panda":
         xml_path = str(script_dir / "franka_emika_panda" / "scene.xml")
