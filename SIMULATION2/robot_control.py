@@ -131,6 +131,7 @@ if __name__ == "__main__":
 
     elif robot == "lite6":
         xml_path = str(script_dir / "ufactory_lite6" / "scene.xml")
+        urdf_path = str(script_dir / "lite6.urdf")
         workspace = Robot_Workspace("sphere", center = [0,0,(-.165+.6835)/2], radius = .440 - 0.003, height = (-.165+.6835)/2)
 
     sim = Simulation(xml_path, urdf_path, workspace, dt = 0.02)
