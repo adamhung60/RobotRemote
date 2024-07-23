@@ -53,8 +53,8 @@ class Simulation():
             q0 = np.array(self.data.qpos.copy())
             ik = IK_Solver(self.urdf_path, self.workspace, q0)
 
-            #listener = keyboard.Listener(on_press=self.on_press)
-            #listener.start()
+            listener = keyboard.Listener(on_press=self.on_press)
+            listener.start()
             while viewer.is_running():
 
                 step_start = time.time()
@@ -72,7 +72,7 @@ class Simulation():
                 if time_until_next_step > 0:
                     time.sleep(time_until_next_step)
 
-            #listener.stop()
+            listener.stop()
 
     def on_press(self, key):
         delta = 0.01

@@ -21,7 +21,7 @@ class IK_Solver():
     def solve(self, goal_pos, goal_mat):
         goal_pos = self.workspace.clip_to_workspace(goal_pos)
         goal_ori = goal_mat.reshape((3,3))
-        print(goal_ori)
+        #print(goal_ori)
         oMdes = pinocchio.SE3(goal_ori, np.array(goal_pos))
 
         i = 0
@@ -41,14 +41,16 @@ class IK_Solver():
             v = -J.T.dot(solve(J.dot(J.T) + self.damp * np.eye(6), err))
             q = pinocchio.integrate(self.model, q, v * self.DT)
             if not i % 10:
-                print("%d: error = %s" % (i, err.T))
+                #print("%d: error = %s" % (i, err.T))
+                pass
             i += 1
 
         if success:
-            print("Convergence achieved!")
+            #print("Convergence achieved!")
+            pass
         else:
-            print("failed to converge")
-
+            #print("failed to converge")
+            pass
         return q.flatten().tolist()
     
 class Robot_Workspace:
