@@ -5,7 +5,7 @@ import pinocchio
 
 class IK_Solver():
 
-    def __init__(self, urdf_path, workspace, q0):
+    def __init__(self, urdf_path, workspace, q0, end_effector_joint_index):
         self.model = pinocchio.buildModelFromUrdf(urdf_path)
         self.data = self.model.createData()
 
@@ -16,7 +16,7 @@ class IK_Solver():
         self.DT = 1e-1
         self.damp = 1e-12
 
-        self.JOINT_ID = 7
+        self.JOINT_ID = end_effector_joint_index
     
     def solve(self, goal_pos, goal_mat):
         goal_pos = self.workspace.clip_to_workspace(goal_pos)
