@@ -9,13 +9,14 @@ from transformations import euler_from_quaternion
 
 class Simulation():
 
-    def __init__(self, xml_path, urdf_path, workspace, dt = 0.02, grav_comp = True, site_name = "attachment_site", home_key_name = "home"):
+    def __init__(self, xml_path, urdf_path, workspace, end_effector_joint_index, dt = 0.02, grav_comp = True, site_name = "attachment_site", home_key_name = "home"):
         self.urdf_path = urdf_path
         self.model = mujoco.MjModel.from_xml_path(xml_path)
         self.data = mujoco.MjData(self.model)
         self.goal_pos = np.zeros(3)
         self.goal_quat = np.zeros(4)
         self.rot = False
+        self.end_effector_joint_index = end_effector_joint_index
 
         self.dt = dt
         self.model.opt.timestep = dt
@@ -51,7 +52,7 @@ class Simulation():
             mujoco.mju_mat2Quat(self.goal_quat, self.data.site(self.site_id).xmat)
 
             q0 = np.array(self.data.qpos.copy())
-            ik = IK_Solver(self.urdf_path, self.workspace, q0)
+            ik = IK_Solver(self.urdf_path, self.workspace, q0, self.end_effector_joint_index)
 
             listener = keyboard.Listener(on_press=self.on_press)
             listener.start()
@@ -122,7 +123,7 @@ class Simulation():
 if __name__ == "__main__":
     script_dir = Path(__file__).resolve().parent
 
-    robot = "panda"
+    robot = "lite6"
 
     if robot == "panda":
         xml_path = str(script_dir / "franka_emika_panda" / "scene.xml")
@@ -134,5 +135,5 @@ if __name__ == "__main__":
         urdf_path = str(script_dir / "lite6.urdf")
         workspace = Robot_Workspace("sphere", center = [0,0,(-.165+.6835)/2], radius = .440 - 0.003, height = (-.165+.6835)/2)
         end_effector_joint_index = 6
-    sim = Simulation(xml_path, urdf_path, workspace, dt = 0.02)
+    sim = Simulation(xml_path, urdf_path, workspace, end_effector_joint_index)
     sim.simulate()
