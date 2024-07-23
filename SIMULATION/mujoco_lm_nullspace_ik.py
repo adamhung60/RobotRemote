@@ -5,9 +5,6 @@ import time
 from pathlib import Path
 import copy
 
-script_dir = Path(__file__).resolve().parent
-xml_path = str(script_dir / "franka_emika_panda" / "scene.xml")
-
 # Levenberg-Marquardt IK solver
 class IK_Solver():
 
