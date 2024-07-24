@@ -68,6 +68,7 @@ class Robot_Workspace:
             if np.linalg.norm(point - self.center) <= self.radius:
                 return point
             else:
+                print("clipping")
                 return self.center + (point - self.center) / np.linalg.norm(point - self.center) * self.radius
             
 
