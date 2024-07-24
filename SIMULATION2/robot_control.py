@@ -60,9 +60,8 @@ class Simulation():
 
                 step_start = time.time()
                 mat_goal = np.zeros(9)
-                print(mat_goal)
-                print(self.goal_quat)
                 mujoco.mju_quat2Mat(mat_goal, self.goal_quat)
+                mat_goal = mat_goal.reshape((3,3))
                 q = ik.solve(self.goal_pos, mat_goal)
                 #self.data.ctrl[self.actuator_ids] = q[self.dof_ids]
                 self.data.qpos = q
@@ -130,10 +129,12 @@ if __name__ == "__main__":
         urdf_path = str(script_dir / "panda.urdf")
         workspace = Robot_Workspace("sphere", center = [0,0,(-.360+1.190)/2], radius = 0.855 - 0.003, height = (-.360+1.190)/2)
         end_effector_joint_index = 7
+
     elif robot == "lite6":
         xml_path = str(script_dir / "ufactory_lite6" / "scene.xml")
         urdf_path = str(script_dir / "lite6.urdf")
         workspace = Robot_Workspace("sphere", center = [0,0,(-.165+.6835)/2], radius = .440 - 0.003, height = (-.165+.6835)/2)
         end_effector_joint_index = 6
+
     sim = Simulation(xml_path, urdf_path, workspace, end_effector_joint_index)
     sim.simulate()
