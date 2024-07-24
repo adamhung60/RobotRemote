@@ -79,7 +79,7 @@ class Simulation():
         delta = 0.01
         if self.rot == False:
             try:
-                if key == keyboard.Key.ctrl_r:
+                if key == keyboard.Key.cmd_r:
                     self.rot = True
                     return
                 elif key == keyboard.Key.space:
@@ -99,7 +99,7 @@ class Simulation():
         else:
             euler_angles = [*euler_from_quaternion(self.goal_quat)]
             try:
-                if key == keyboard.Key.ctrl_r:
+                if key == keyboard.Key.cmd_r:
                     self.rot = False
                     return
                 elif key == keyboard.Key.space:
